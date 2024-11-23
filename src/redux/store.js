@@ -8,7 +8,7 @@ import userSideCoursesReducer from "./reducers/userSideCourses/userSideCoursesSl
 import cartReducer from "./reducers/cart/cartSlice";
 import courseReviewsReducer from "./reducers/courseReviews/courseReviewsSlice";
 import adminReducer from "./reducers/admin/adminSlice";
-
+import teacherReducer from "./reducers/Teacher/teacherslice";
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -20,6 +20,7 @@ const store = configureStore({
     courseReviews: courseReviewsReducer,
     cart: cartReducer,
     admin: adminReducer,
+    teacher: teacherReducer,
   },
 });
 

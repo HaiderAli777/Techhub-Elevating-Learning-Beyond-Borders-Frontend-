@@ -42,7 +42,7 @@ const loginUser = async (userData) => {
       "Content-Type": "application/json",
     },
   });
-
+  console.log("fron", data);
   if (data.user) {
     sessionStorage.setItem("user", JSON.stringify(data.user));
   }
