@@ -8,6 +8,7 @@ const initialState = {
   successMessage: "",
   errorMessage: "",
   teacherDetails: null, // To store teacher details
+  teacherStatus: null, // To store teacher status
 };
 
 // Register Teacher
@@ -46,6 +47,23 @@ export const getTeacherDetails = createAsyncThunk(
   }
 );
 
+// Get Teacher Status
+export const getTeacherStatus = createAsyncThunk(
+  "teacher/status",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token; // Get token from auth state
+      return await teacherService.getTeacherStatus(token);
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const teacherSlice = createSlice({
   name: "teacher",
   initialState,
@@ -57,6 +75,7 @@ const teacherSlice = createSlice({
       state.successMessage = "";
       state.errorMessage = "";
       state.teacherDetails = null;
+      state.teacherStatus = null;
     },
   },
   extraReducers: (builder) => {
@@ -99,6 +118,27 @@ const teacherSlice = createSlice({
         state.successMessage = "";
         state.errorMessage = action.payload;
         state.teacherDetails = null;
+      })
+
+      // Get Teacher Status
+      .addCase(getTeacherStatus.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getTeacherStatus.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.teacherStatus = action.payload.status;
+        state.successMessage = "";
+        state.errorMessage = "";
+      })
+      .addCase(getTeacherStatus.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.successMessage = "";
+        state.errorMessage = action.payload;
+        state.teacherStatus = null;
       });
   },
 });

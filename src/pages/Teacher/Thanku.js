@@ -1,8 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const ThankYouPage = () => {
+const ThankYouPage = ({ status = "applied" }) => {
   const navigate = useNavigate();
+
+  // Define status levels
+  const statusLevels = ["none", "applied", "rejected", "approved"];
+  const currentLevel = statusLevels.indexOf(status);
 
   return (
     <div className="container text-center" style={{ marginTop: "100px" }}>
@@ -21,11 +25,35 @@ const ThankYouPage = () => {
           have you onboard and look forward to seeing your contributions in
           enhancing the learning experience for students across the platform.
         </p>
-        <p style={{ fontSize: "18px", lineHeight: "1.8" }}>
-          If you have any questions or need further assistance, feel free to
-          reach out to our support team. Thank you for your interest in joining
-          us!
-        </p>
+
+        {/* Status Bar */}
+        <div className="mt-5">
+          <h4>Application Status</h4>
+          <div className="progress" style={{ height: "30px" }}>
+            {statusLevels.map((level, index) => (
+              <div
+                key={level}
+                className={`progress-bar ${
+                  index <= currentLevel ? "bg-success" : "bg-light"
+                }`}
+                style={{
+                  width: `${100 / statusLevels.length}%`,
+                  fontSize: "14px",
+                  color: index <= currentLevel ? "white" : "black",
+                }}
+              >
+                {level.charAt(0).toUpperCase() + level.slice(1)}
+              </div>
+            ))}
+          </div>
+          <p className="mt-3" style={{ fontSize: "18px", color: "gray" }}>
+            Current Status:{" "}
+            <strong className="text-primary">
+              {status.charAt(0).toUpperCase() + status.slice(1)}
+            </strong>
+          </p>
+        </div>
+
         <button className="btn btn-primary mt-4" onClick={() => navigate("/")}>
           Back to Home
         </button>

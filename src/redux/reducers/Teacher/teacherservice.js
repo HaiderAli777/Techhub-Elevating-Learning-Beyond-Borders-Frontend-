@@ -30,9 +30,22 @@ export const getTeacherDetails = async (token) => {
   return data;
 };
 
+// Get Teacher Status
+export const getTeacherStatus = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const { data } = await axios.get(`${API_URL}/api/v1/teacher/status`, config);
+  return data;
+};
+
 const teacherService = {
   registerTeacher,
   getTeacherDetails,
+  getTeacherStatus, // Added for retrieving teacher status
 };
 
 export default teacherService;

@@ -427,7 +427,7 @@ import AdminPanelSingleUser from "./pages/AdminPanel/AdminPanelSingleUser";
 import AdminPanelSingleCourse from "./pages/AdminPanel/AdminPanelSingleCourse";
 import TeacherForm from "./pages/Teacher/Teacherform";
 import ThankYouPage from "./pages/Teacher/Thanku";
-
+import AdminPanelRequests from "./pages/AdminPanel/AdminPanelRequests";
 // Initialize Stripe with your publishable key
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
@@ -560,6 +560,7 @@ const RouterComponent = () => {
             <Route path="/admin/users" element={<AdminPanelUsers />} />
             <Route path="/admin/users/:id" element={<AdminPanelSingleUser />} />
             <Route path="/admin/courses" element={<AdminPanelCourses />} />
+            <Route path="/admin/requests" element={<AdminPanelRequests />} />;
             <Route
               path="/admin/courses/:id"
               element={<AdminPanelSingleCourse />}

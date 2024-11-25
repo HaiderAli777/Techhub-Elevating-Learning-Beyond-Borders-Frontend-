@@ -12,6 +12,7 @@ const initialState = {
   user: null,
   courses: [],
   course: null,
+  teachers: [], // To store all teachers with their statuses
 };
 
 // Get Admin Analytics
@@ -26,7 +27,6 @@ export const getAdminAnalytics = createAsyncThunk(
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message;
-      console.log(message);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -44,7 +44,6 @@ export const getAdminUsers = createAsyncThunk(
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message;
-      console.log(message);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -62,7 +61,6 @@ export const getAdminSingleUser = createAsyncThunk(
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message;
-      console.log(message);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -80,7 +78,6 @@ export const getAdminCourses = createAsyncThunk(
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message;
-      console.log(message);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -103,6 +100,44 @@ export const getAdminSingleCourse = createAsyncThunk(
   }
 );
 
+// Update Teacher Status
+export const updateTeacherStatus = createAsyncThunk(
+  "admin/updateTeacherStatus",
+  async ({ teacherId, status }, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await adminService.updateTeacherStatus({
+        teacherId,
+        status,
+        token,
+      });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// Get Teachers with Status
+export const getTeachersByStatus = createAsyncThunk(
+  "admin/teachers",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await adminService.getAdminTeachers(token);
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const adminSlice = createSlice({
   name: "adminSlice",
   initialState,
@@ -110,8 +145,10 @@ const adminSlice = createSlice({
     reset: (state) => {
       state.isLoading = false;
       state.isError = false;
+      state.isSuccess = false;
       state.errorMessage = "";
       state.successMessage = "";
+      state.teachers = [];
       state.analytics = null;
     },
   },
@@ -127,7 +164,6 @@ const adminSlice = createSlice({
       })
       .addCase(getAdminAnalytics.rejected, (state, action) => {
         state.isLoading = false;
-        state.isSuccess = false;
         state.isError = true;
         state.errorMessage = action.payload;
       })
@@ -141,7 +177,6 @@ const adminSlice = createSlice({
       })
       .addCase(getAdminUsers.rejected, (state, action) => {
         state.isLoading = false;
-        state.isSuccess = false;
         state.isError = true;
         state.errorMessage = action.payload;
       })
@@ -155,7 +190,6 @@ const adminSlice = createSlice({
       })
       .addCase(getAdminSingleUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.isSuccess = false;
         state.isError = true;
         state.errorMessage = action.payload;
       })
@@ -169,7 +203,6 @@ const adminSlice = createSlice({
       })
       .addCase(getAdminCourses.rejected, (state, action) => {
         state.isLoading = false;
-        state.isSuccess = false;
         state.isError = true;
         state.errorMessage = action.payload;
       })
@@ -179,11 +212,36 @@ const adminSlice = createSlice({
       .addCase(getAdminSingleCourse.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.course = action.payload.analytics;
+        state.course = action.payload.course;
       })
       .addCase(getAdminSingleCourse.rejected, (state, action) => {
         state.isLoading = false;
-        state.isSuccess = false;
+        state.isError = true;
+        state.errorMessage = action.payload;
+      })
+      .addCase(updateTeacherStatus.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateTeacherStatus.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.successMessage = action.payload.message;
+      })
+      .addCase(updateTeacherStatus.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.errorMessage = action.payload;
+      })
+      .addCase(getTeachersByStatus.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getTeachersByStatus.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.teachers = action.payload.teachers; // Store the fetched teachers
+      })
+      .addCase(getTeachersByStatus.rejected, (state, action) => {
+        state.isLoading = false;
         state.isError = true;
         state.errorMessage = action.payload;
       });

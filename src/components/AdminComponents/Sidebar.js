@@ -4,6 +4,7 @@ import { MdOutlineAnalytics } from "react-icons/md";
 import { SiSololearn } from "react-icons/si";
 import { PiUsersDuotone } from "react-icons/pi";
 import { MdSlowMotionVideo } from "react-icons/md";
+import { FaClipboardList } from "react-icons/fa"; // Icon for Requests
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import SmallLoader from "../SharedComponents/SmallLoader";
@@ -24,7 +25,7 @@ const Sidebar = () => {
       <NavLink to="/admin/analytics">
         <Card.Header className="text-center pb-3 text-light">
           <h4>
-            <SiSololearn size={25} className="text-success" /> LEARNICA
+            <SiSololearn size={25} className="text-success" /> Techhub
           </h4>
         </Card.Header>
       </NavLink>
@@ -74,6 +75,23 @@ const Sidebar = () => {
           >
             <MdSlowMotionVideo size={30} />
             <h6 className="m-0">Courses</h6>
+          </NavLink>
+        </div>
+
+        {/* New Requests Section */}
+        <div className="mb-2">
+          <NavLink
+            to="/admin/requests"
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "d-flex nav-link p-3 rounded align-items-center justify-content-between"
+                : isActive
+                ? "d-flex text-light nav-link bg-success p-3 rounded align-items-center justify-content-between"
+                : "d-flex nav-link p-3 rounded align-items-center justify-content-between"
+            }
+          >
+            <FaClipboardList size={30} />
+            <h6 className="m-0">Requests</h6>
           </NavLink>
         </div>
       </Card.Body>
