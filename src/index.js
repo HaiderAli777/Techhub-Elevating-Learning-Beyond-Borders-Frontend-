@@ -6,7 +6,8 @@ import App from "./App";
 import store from "./redux/store";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import FloatingChatbot from "./pages/FloatingChatbot"; // Import the chatbot component
+import FloatingChatbot from "./pages/FloatingChatbot";
+import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
