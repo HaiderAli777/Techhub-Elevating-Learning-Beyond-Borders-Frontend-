@@ -13,3 +13,4 @@ Welcome to Techhub, a web application that enables students to buy courses and t
 - Responsive and mobile-friendly design.
 - Teachers can Earn Money by 80/20 Split. 80% will be for the tutor / enrollment and 20% for the administration of the Product.
 - Stunning analytics Dashboard for both administration and Tutor that displays data in Graphs and Charts.
+- Backend in comming soon..
