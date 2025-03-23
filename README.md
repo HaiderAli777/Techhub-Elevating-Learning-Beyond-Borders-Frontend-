@@ -1,7 +1,8 @@
 ﻿# Techhub-Elevating-Learning-Beyond-Borders-Frontend-
 Welcome to TechHub, a dynamic e-learning platform designed to bridge the gap between students and educators. Whether you're a student looking to gain new skills or an instructor eager to share your expertise, TechHub provides the perfect environment for online learning. Built using the MERN stack (MongoDB, Express, React, Node.js), this platform ensures a seamless and intuitive experience for all users.
 
-Key Features
+# Key Features
+
 ✅ Comprehensive Course Marketplace – Students can explore, search, and enroll in a wide range of courses tailored to their learning needs.
 
 ✅ Instructor Empowerment – Educators can create, manage, and monetize their courses with ease, transforming knowledge into revenue.
